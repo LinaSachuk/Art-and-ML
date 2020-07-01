@@ -6,12 +6,18 @@ The project idea was build on my Old Love for the Great Art and my New Love for 
 
 ![Screenshot](Screenshots/1.png)
 
-2. The Training and Testing image datasets were created for 7 artists (Nicholas Roerich, Salvador Dali, Gustav Klimt, Vincent van Gogh, Leonardo da Vinci, Pablo Picasso, Jackson Pollock). ImageAI provides the most simple and powerful approach to training custom image prediction models. The final Model was trained for 48 hours. You can :
+2. The Training and Testing image datasets were created for 7 artists (Nicholas Roerich, Salvador Dali, Gustav Klimt, Vincent van Gogh, Leonardo da Vinci, Pablo Picasso, Jackson Pollock). Searching and Downloading Google Images to the local disk - Thank you to https://github.com/hardikvasa/google-images-download).
+   ImageAI provides the most simple and powerful approach to training custom image prediction models. Thank you to https://github.com/OlafenwaMoses/ImageAI. The final Model was trained for 48 hours.
    1. Choose any img from imgTest folder
    2. Submit it and click the button 'Who is the artist?'
    3. Wait for predictions (less than 20 s)
 
 ![Screenshot](Screenshots/2.png)
+
+3. Embedded Tableau Story - By visually creating logical relationships between tables.
+
+![Screenshot](Screenshots/3.png)
+![Screenshot](Screenshots/4.png)
 
 1.  # Fast Style Transfer in TensorFlow
 
@@ -23,21 +29,13 @@ The project idea was build on my Old Love for the Great Art and my New Love for 
     What is Style Transfer?
     Style transfer is, simply put, very much like a photo filter. But unlike those that you might find in a program like Photoshop, which use specific algorithms to manipulate a photo, style transfer attempts to identify the style of a source image on its own, with various groups of neurons working together to identify specific feature sets.
 
-1.  # Searching and Downloading Google Images to the local disk
-
-    Originally from https://github.com/hardikvasa/google-images-download
-
-1.  # ImageAI provides the most simple and powerful approach to training custom image prediction models using state-of-the-art SqueezeNet, ResNet50, InceptionV3 and DenseNet
-
-    Originally from https://github.com/OlafenwaMoses/ImageAI
-
-1.  SHOW PICTURES IN YOUR TABLEAU TOOLTIP
+1)  SHOW PICTURES IN YOUR TABLEAU TOOLTIP
 
     https://inviso.dk/blog/post/show-pictures-in-your-tableau-tooltip
 
-1)  Tableau and Tableau insert
+1.  Tableau and Tableau insert
 
-1)  Image Module (creating a GIF)
+1.  Image Module (creating a GIF)
     The Image module provides a class with the same name which is used to represent a PIL image. The module also provides a number of factory functions, including functions to load images from files, and to create new images.
 
 https://pillow.readthedocs.io/en/3.1.x/reference/Image.html
