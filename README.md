@@ -1,10 +1,14 @@
 # Art-and-ML
 
-The project idea was build on the old love for the Great Art and the new love for the Machine Learning.
+The project idea was build on my Old Love for the Great Art and my New Love for Machine Learning. Flask App with an Image Recognition Model.
 
-1.  BeautifulSoup used for Web Scraping, getting intro data and saving it in MongoDB Atlas (cloud database service)
+1.  BeautifulSoup used for web scraping, getting data and saving it on MongoDB Atlas (cloud database service)
 
-    ![Screenshot](Screenshots/1.png)
+![Screenshot](Screenshots/1.png)
+
+2. Training and Testing datasets were created for 7 artists (Nicholas Roerich, Salvador Dali, Gustav Klimt, Vincent van Gogh, Leonardo da Vinci, Pablo Picasso, Jackson Pollock). ImageAI provides the most simple and powerful approach to training custom image prediction models. The finale Model was trained for 48 hours.
+
+![Screenshot](Screenshots/2.png)
 
 1.  # Fast Style Transfer in TensorFlow
 
@@ -28,15 +32,9 @@ The project idea was build on the old love for the Great Art and the new love fo
 
     https://inviso.dk/blog/post/show-pictures-in-your-tableau-tooltip
 
-1.  MongoDB Atlas
+1)  Tableau and Tableau insert
 
-1.  Web Scraping
-
-1.  Flask
-
-1.  Tableau and Tableau insert
-
-1.  Image Module (creating a GIF)
+1)  Image Module (creating a GIF)
     The Image module provides a class with the same name which is used to represent a PIL image. The module also provides a number of factory functions, including functions to load images from files, and to create new images.
 
 https://pillow.readthedocs.io/en/3.1.x/reference/Image.html
