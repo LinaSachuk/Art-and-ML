@@ -29,5 +29,4 @@ The project idea was build on my Old Love for the Great Art and my New Love for 
 
 6. Creating GIFs with the Image module. Style Transfer had 40 steps/images to transfer Art Style to the Denver img. Those images were used for the GIFs.
 
-![Screenshot](/static/img/Denver-Picasso/DenverPicasso.gif =250x250)
-<img src="/static/img/Denver-Picasso/DenverPicasso.gif" width="48">
+<img src="/static/img/Denver-Picasso/DenverPicasso.gif" width="200">
