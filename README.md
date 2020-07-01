@@ -23,6 +23,10 @@ The project idea was build on my Old Love for the Great Art and my New Love for 
 ![Screenshot](Screenshots/4.png)
 ![Screenshot](Screenshots/5.png)
 
+5. Style Transfer in TensorFlow - use specific algorithms to manipulate a photo, style transfer attempts to identify the style of a source image on its own, with various groups of neurons working together to identify specific feature sets. Thank you to - https://github.com/lengstrom/fast-style-transfer.
+
+![Screenshot](Screenshots/6.png)
+
 1.  # Fast Style Transfer in TensorFlow
 
     Add styles from famous paintings to any photo in a fraction of a second!
