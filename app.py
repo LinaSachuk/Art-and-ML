@@ -1,53 +1,135 @@
-from flask import Flask, request, jsonify
+from flask import g
+import os
+# from app import app
+import urllib.request
+from flask import Flask, flash, request, redirect, url_for, render_template, jsonify, make_response, template_rendered, session
+from werkzeug.utils import secure_filename
+from pymongo import MongoClient
+import urllib.parse
+import json
+from bson import json_util, ObjectId
+import requests
+import csv
+from imageai.Prediction.Custom import CustomImagePrediction
+import FirstCustomImageRecognition
+import operator
+
+from flask import Flask
+
+# folder for testing
+UPLOAD_FOLDER = 'static/uploads/'
+
+
+# # Create an instance of Flask
 app = Flask(__name__)
+app.secret_key = "secret key"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
-@app.route('/getmsg/', methods=['GET'])
-def respond():
-    # Retrieve the name from url parameter
-    name = request.args.get("name", None)
+# ===========================================
+# Connect to MongoDB Atlas
+username = urllib.parse.quote_plus('mongo')
+password = urllib.parse.quote_plus('mongo')
+client = MongoClient(
+    'mongodb+srv://%s:%s@cluster0-8yire.mongodb.net/test?retryWrites=true&w=majority' % (username, password))
 
-    # For debugging
-    print(f"got name {name}")
-
-    response = {}
-
-    # Check if user sent a name at all
-    if not name:
-        response["ERROR"] = "no name found, please send a name."
-    # Check if the user entered a number not a name
-    elif str(name).isdigit():
-        response["ERROR"] = "name can't be numeric."
-    # Now the user entered a valid name
-    else:
-        response["MESSAGE"] = f"Welcome {name} to our awesome platform!!"
-
-    # Return the response in json format
-    return jsonify(response)
+# Connect to the "art" MongoDB Atlas database
+db = client.art
+facts = db.art.find_one()
 
 
-@app.route('/post/', methods=['POST'])
-def post_something():
-    param = request.form.get('name')
-    print(param)
-    # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
-    if param:
-        return jsonify({
-            "Message": f"Welcome {name} to our awesome platform!!",
-            # Add this option to distinct the POST request
-            "METHOD": "POST"
-        })
-    else:
-        return jsonify({
-            "ERROR": "no name found, please send a name."
-        })
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-# A welcome message to test our server
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# home page
 
 
 @app.route('/')
-def index():
-    return "<h1>Welcome to our server !!</h1>"
+def upload_form():
+
+    # Return template and data
+    return render_template("upload.html", facts=facts)
+
+# image upload
+
+
+@app.route('/', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        # flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        # flash('No image selected for uploading')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # print('upload_image filename: ' + filename)
+
+        # flash('Image successfully uploaded and displayed')
+        return render_template('upload.html', filename=filename, facts=facts)
+    else:
+        flash('Allowed image types are -> png, jpg, jpeg, gif')
+        return redirect(request.url)
+
+# image display
+
+
+@app.route('/display/<filename>')
+def display_image(filename):
+    print('display_image filename: ' + filename)
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+
+# image_recognition function
+@app.route("/image_recognition/<filename>")
+def img_recognition(filename):
+    print('display_image filename: ' + filename)
+    testing_image = 'static/uploads/' + filename
+
+    # Run the image_recognition function
+    predictions = FirstCustomImageRecognition.image_recognition(testing_image)
+    print(predictions)
+
+    g.predictions = predictions
+    # return g.predictions
+
+    # sort a predictions dictionary
+    sorted_p = sorted(predictions.items(), key=operator.itemgetter(1))
+    best_prediction = sorted_p[-1]
+    print(sorted_p)
+    print(best_prediction)
+    print(best_prediction[0])
+
+    with open('Top10Artists.csv') as csv_file:
+        data = csv.reader(csv_file, delimiter=',')
+        first_line = True
+        artists = []
+
+        for row in data:
+            if not first_line:
+                if row[0] == best_prediction[0]:
+                    artists.append({
+                        "artist": row[0],
+                        "info": row[1],
+                        "url": row[2]
+                    })
+
+            else:
+                first_line = False
+        # print(artists)
+        # return render_template("index.html", places=places)
+
+    # Delete filename from uploaded folder
+    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    # Redirect back to home page
+    return render_template("upload.html", predictions=g.predictions, facts=facts, filename=filename, artists=artists)
 
 
 if __name__ == '__main__':
