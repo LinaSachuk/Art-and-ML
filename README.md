@@ -14,10 +14,14 @@ The project idea was build on my Old Love for the Great Art and my New Love for 
 
 ![Screenshot](Screenshots/2.png)
 
-3. Embedded Tableau Story - By visually creating logical relationships between tables.
+3. Based on prediction - collecting data about the artist from dataset and displaying it on the app.
 
 ![Screenshot](Screenshots/3.png)
+
+4. Embedded Tableau Story - By visually creating logical relationships between tables.
+
 ![Screenshot](Screenshots/4.png)
+![Screenshot](Screenshots/5.png)
 
 1.  # Fast Style Transfer in TensorFlow
 
