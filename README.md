@@ -27,6 +27,8 @@ The project idea was build on my Old Love for the Great Art and my New Love for 
 
 ![Screenshot](Screenshots/55.png)
 
-6. Creating GIFs with the Image module. Style Transfer had 40 steps/images to transfer Art Style to the Denver img. Those images were used for the GIFs.
+6. Creating GIFs with the Image module. Style Transfer had 40 steps/images to transfer Art Style to the Denver image. Those images were used for the GIFs.
 
 <img src="/static/img/Denver-Picasso/DenverPicasso.gif" width="300">
+
+7. Heroku deployment - https://art-and-ml.herokuapp.com/
