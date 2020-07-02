@@ -25,13 +25,12 @@ tracker = SummaryTracker()
 
 # Garbage collection
 flags = gc.DEBUG_LEAK
-
 gc.set_debug(flags)
 
 
 # Force a sweep
 print('Collecting')
-n = gc.collect()
+gc.collect()
 print('Done')
 
 print('Remaining Garbage:')
@@ -163,6 +162,18 @@ def img_recognition(filename):
     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     tracker.print_diff()
+    # Clear references held by gc.garbage
+
+    print('Clearing gc.garbage:')
+    del gc.garbage[:]
+
+    # Everything should have been freed this time
+    print('Collecting')
+    gc.collect()
+    print('Done')
+
+    print('Remaining Garbage:')
+    # pprint.pprint(gc.garbage)
 
     # Redirect back to home page
     return render_template("upload.html", predictions=g.predictions, facts=facts, filename=filename, artists=artists)
