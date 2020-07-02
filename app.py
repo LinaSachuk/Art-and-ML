@@ -144,12 +144,14 @@ def img_recognition(filename):
         # return render_template("index.html", places=places)
 
     # Delete filename from uploaded folder
-    print('delete file from folder')
-    print('Filename: ', filename)
-    print('Folder name: ', app.config['UPLOAD_FOLDER'])
+    # print('delete files from folder')
+    # print('Filename: ', filename)
+    # print('Folder name: ', app.config['UPLOAD_FOLDER'])
 
+    # get list of files in the directory
     files_in_dir = os.listdir(app.config['UPLOAD_FOLDER'])
 
+    # loop to delete each file in folder
     for f in files_in_dir:
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], f))
 
