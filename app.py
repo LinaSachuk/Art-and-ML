@@ -13,8 +13,30 @@ import csv
 from imageai.Prediction.Custom import CustomImagePrediction
 import FirstCustomImageRecognition
 import operator
+import gc
+import pprint
+from pympler.tracker import SummaryTracker
 
 from flask import Flask
+
+
+tracker = SummaryTracker()
+
+
+# Garbage collection
+flags = gc.DEBUG_LEAK
+
+gc.set_debug(flags)
+
+
+# Force a sweep
+print('Collecting')
+n = gc.collect()
+print('Done')
+
+print('Remaining Garbage:')
+pprint.pprint(gc.garbage)
+
 
 # folder for testing
 UPLOAD_FOLDER = 'static/uploads/'
@@ -25,17 +47,6 @@ app = Flask(__name__)
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-
-# Clear variables
-predictions = None
-facts = None
-filename = None
-artists = None
-data = None
-username = None
-password = None
-client = None
-db = None
 
 
 # ===========================================
@@ -150,6 +161,8 @@ def img_recognition(filename):
 
     # Delete filename from uploaded folder
     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    tracker.print_diff()
 
     # Redirect back to home page
     return render_template("upload.html", predictions=g.predictions, facts=facts, filename=filename, artists=artists)
