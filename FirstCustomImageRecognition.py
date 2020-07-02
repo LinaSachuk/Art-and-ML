@@ -13,6 +13,8 @@ import os
 
 def image_recognition(testing_image):
 
+    new_predictions = None
+
     execution_path = os.getcwd()
 
     prediction = CustomImagePrediction()
@@ -30,6 +32,10 @@ def image_recognition(testing_image):
         # print(eachPrediction, " : ", round(eachProbability, 3))
         new_predictions[eachPrediction] = round(eachProbability, 3)
         # print(new_predictions)
+
+    del prediction
+    del predictions
+    del probabilities
 
     return new_predictions
 

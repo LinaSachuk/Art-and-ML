@@ -17,6 +17,7 @@ import gc
 import pprint
 from pympler.tracker import SummaryTracker
 
+
 from flask import Flask
 
 
@@ -145,7 +146,16 @@ def img_recognition(filename):
     # Delete filename from uploaded folder
     print('delete file from folder')
     print('Filename: ', filename)
-    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    print('Folder name: ', app.config['UPLOAD_FOLDER'])
+
+    files_in_dir = os.listdir(app.config['UPLOAD_FOLDER'])
+
+    for f in files_in_dir:
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], f))
+
+    # Remove Folder
+    # import shutil
+    # shutil.rmtree(app.config['UPLOAD_FOLDER'])
 
     tracker.print_diff()
     # Clear references held by gc.garbage
