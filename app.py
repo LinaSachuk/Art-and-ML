@@ -16,6 +16,7 @@ import operator
 import gc
 import pprint
 from pympler.tracker import SummaryTracker
+from imageai.Prediction.Custom import CustomImagePrediction
 
 
 from flask import Flask
@@ -45,16 +46,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
-# # ===========================================
-# # Connect to MongoDB Atlas
-# username = urllib.parse.quote_plus('mongo')
-# password = urllib.parse.quote_plus('mongo')
-# client = MongoClient(
-#     'mongodb+srv://%s:%s@cluster0-8yire.mongodb.net/test?retryWrites=true&w=majority' % (username, password))
+# ===========================================
+# Connect to MongoDB Atlas
+username = urllib.parse.quote_plus('mongo')
+password = urllib.parse.quote_plus('mongo')
+client = MongoClient(
+    'mongodb+srv://%s:%s@cluster0-8yire.mongodb.net/test?retryWrites=true&w=majority' % (username, password))
 
-# # Connect to the "art" MongoDB Atlas database
-# db = client.art
-# facts = db.art.find_one()
+# Connect to the "art" MongoDB Atlas database
+db = client.art
+facts = db.art.find_one()
 
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -65,11 +66,13 @@ def allowed_file(filename):
 
 
 # home page
+
+
 @app.route('/')
 def upload_form():
 
     # Return template and data
-    return render_template("upload.html")
+    return render_template("upload.html", facts=facts)
 
 
 # image upload
@@ -88,7 +91,7 @@ def upload_image():
         # print('upload_image filename: ' + filename)
 
         # flash('Image successfully uploaded and displayed')
-        return render_template('upload.html', filename=filename)
+        return render_template('upload.html', filename=filename, facts=facts)
     else:
         flash('Allowed image types are -> png, jpg, jpeg, gif')
         return redirect(request.url)
@@ -104,6 +107,35 @@ def display_image(filename):
 # image_recognition function
 @app.route("/image_recognition/<filename>")
 def img_recognition(filename):
+
+    def predict(testing_image):
+
+        new_predictions = None
+
+        execution_path = os.getcwd()
+
+        prediction = CustomImagePrediction()
+        prediction.setModelTypeAsResNet()
+        prediction.setModelPath("model_ex-048_acc-0.879121_7.h5")
+        prediction.setJsonPath("idenprof/json/model_class_7.json")
+        prediction.loadModel(num_objects=7)
+
+        predictions, probabilities = prediction.predictImage(
+            testing_image, result_count=7)
+
+        new_predictions = {}
+
+        for eachPrediction, eachProbability in zip(predictions, probabilities):
+            # print(eachPrediction, " : ", round(eachProbability, 3))
+            new_predictions[eachPrediction] = round(eachProbability, 3)
+            # print(new_predictions)
+
+        del prediction
+        del predictions
+        del probabilities
+
+        return new_predictions
+
     predictions = None
     g.predictions = None
 
@@ -111,7 +143,7 @@ def img_recognition(filename):
     testing_image = 'static/uploads/' + filename
 
     # Run the image_recognition function
-    predictions = FirstCustomImageRecognition.image_recognition(testing_image)
+    predictions = predict(testing_image)
     # print(predictions)
 
     g.predictions = predictions
@@ -174,7 +206,7 @@ def img_recognition(filename):
     # pprint.pprint(gc.garbage)
 
     # Redirect back to home page
-    return render_template("upload.html", predictions=g.predictions, filename=filename, artists=artists)
+    return render_template("upload.html", predictions=g.predictions, facts=facts, filename=filename, artists=artists)
 
 
 if __name__ == '__main__':
