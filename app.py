@@ -16,7 +16,6 @@ import operator
 import gc
 import pprint
 from pympler.tracker import SummaryTracker
-from imageai.Prediction.Custom import CustomImagePrediction
 
 
 from flask import Flask
@@ -107,6 +106,7 @@ def display_image(filename):
 # image_recognition function
 @app.route("/image_recognition/<filename>")
 def img_recognition(filename):
+    from imageai.Prediction.Custom import CustomImagePrediction
 
     def predict(testing_image):
 
