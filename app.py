@@ -24,10 +24,6 @@ tracker = SummaryTracker()
 
 
 # Garbage collection
-flags = gc.DEBUG_LEAK
-gc.set_debug(flags)
-
-
 # Force a sweep
 print('Collecting')
 gc.collect()
