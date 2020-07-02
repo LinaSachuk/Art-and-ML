@@ -12,7 +12,7 @@ import os
 
 
 def image_recognition(testing_image):
-    new_predictions = None
+
     execution_path = os.getcwd()
 
     prediction = CustomImagePrediction()

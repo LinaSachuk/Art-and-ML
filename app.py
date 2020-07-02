@@ -92,9 +92,8 @@ def upload_image():
         flash('Allowed image types are -> png, jpg, jpeg, gif')
         return redirect(request.url)
 
+
 # image display
-
-
 @app.route('/display/<filename>')
 def display_image(filename):
     print('display_image filename: ' + filename)
@@ -104,19 +103,8 @@ def display_image(filename):
 # image_recognition function
 @app.route("/image_recognition/<filename>")
 def img_recognition(filename):
-
-    print('===========================Clearing variables==========================')
-
-    # Clear variables
     predictions = None
-    # facts = None
-    # filename = None
-    artists = None
-    data = None
-    # username = None
-    # password = None
-    # client = None
-    # db = None
+    g.predictions = None
 
     # print('display_image filename: ' + filename)
     testing_image = 'static/uploads/' + filename
@@ -155,6 +143,8 @@ def img_recognition(filename):
         # return render_template("index.html", places=places)
 
     # Delete filename from uploaded folder
+    print('delete file from folder')
+    print('Filename: ', filename)
     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     tracker.print_diff()
