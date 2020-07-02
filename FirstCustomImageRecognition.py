@@ -2,16 +2,17 @@ from imageai.Prediction.Custom import CustomImagePrediction
 import os
 
 
-# #   dali - 2
-# #   klimt - 3
+# #   dali
+# #   klimt
 # #   leo
-# #   picasso - 3, 4, 5
+# #   picasso
 # #   pollock
-# #   roerich - 4
+# #   roerich
 # #   vanGogh
 
 
 def image_recognition(testing_image):
+    new_predictions = None
     execution_path = os.getcwd()
 
     prediction = CustomImagePrediction()
@@ -26,7 +27,7 @@ def image_recognition(testing_image):
     new_predictions = {}
 
     for eachPrediction, eachProbability in zip(predictions, probabilities):
-        print(eachPrediction, " : ", round(eachProbability, 3))
+        # print(eachPrediction, " : ", round(eachProbability, 3))
         new_predictions[eachPrediction] = round(eachProbability, 3)
         # print(new_predictions)
 

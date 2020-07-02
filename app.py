@@ -26,6 +26,17 @@ app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
+# Clear variables
+predictions = None
+facts = None
+filename = None
+artists = None
+data = None
+username = None
+password = None
+client = None
+db = None
+
 
 # ===========================================
 # Connect to MongoDB Atlas
@@ -45,18 +56,16 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 # home page
-
-
 @app.route('/')
 def upload_form():
 
     # Return template and data
     return render_template("upload.html", facts=facts)
 
+
 # image upload
-
-
 @app.route('/', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
@@ -89,12 +98,26 @@ def display_image(filename):
 # image_recognition function
 @app.route("/image_recognition/<filename>")
 def img_recognition(filename):
-    print('display_image filename: ' + filename)
+
+    print('===========================Clearing variables==========================')
+
+    # Clear variables
+    predictions = None
+    # facts = None
+    # filename = None
+    artists = None
+    data = None
+    # username = None
+    # password = None
+    # client = None
+    # db = None
+
+    # print('display_image filename: ' + filename)
     testing_image = 'static/uploads/' + filename
 
     # Run the image_recognition function
     predictions = FirstCustomImageRecognition.image_recognition(testing_image)
-    print(predictions)
+    # print(predictions)
 
     g.predictions = predictions
     # return g.predictions
@@ -102,9 +125,9 @@ def img_recognition(filename):
     # sort a predictions dictionary
     sorted_p = sorted(predictions.items(), key=operator.itemgetter(1))
     best_prediction = sorted_p[-1]
-    print(sorted_p)
-    print(best_prediction)
-    print(best_prediction[0])
+    # print(sorted_p)
+    # print(best_prediction)
+    # print(best_prediction[0])
 
     with open('Top10Artists.csv') as csv_file:
         data = csv.reader(csv_file, delimiter=',')
