@@ -29,8 +29,8 @@ print('Collecting')
 gc.collect()
 print('Done')
 
-print('Remaining Garbage:')
-pprint.pprint(gc.garbage)
+# print('Remaining Garbage:')
+# pprint.pprint(gc.garbage)
 
 
 # folder for testing
@@ -164,11 +164,11 @@ def img_recognition(filename):
     del gc.garbage[:]
 
     # Everything should have been freed this time
-    print('Collecting')
-    gc.collect()
-    print('Done')
+    # print('Collecting')
+    # gc.collect()
+    # print('Done')
 
-    print('Remaining Garbage:')
+    # print('Remaining Garbage:')
     # pprint.pprint(gc.garbage)
 
     # Redirect back to home page
