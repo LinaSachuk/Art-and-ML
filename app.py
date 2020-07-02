@@ -45,16 +45,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
-# ===========================================
-# Connect to MongoDB Atlas
-username = urllib.parse.quote_plus('mongo')
-password = urllib.parse.quote_plus('mongo')
-client = MongoClient(
-    'mongodb+srv://%s:%s@cluster0-8yire.mongodb.net/test?retryWrites=true&w=majority' % (username, password))
+# # ===========================================
+# # Connect to MongoDB Atlas
+# username = urllib.parse.quote_plus('mongo')
+# password = urllib.parse.quote_plus('mongo')
+# client = MongoClient(
+#     'mongodb+srv://%s:%s@cluster0-8yire.mongodb.net/test?retryWrites=true&w=majority' % (username, password))
 
-# Connect to the "art" MongoDB Atlas database
-db = client.art
-facts = db.art.find_one()
+# # Connect to the "art" MongoDB Atlas database
+# db = client.art
+# facts = db.art.find_one()
 
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -69,7 +69,7 @@ def allowed_file(filename):
 def upload_form():
 
     # Return template and data
-    return render_template("upload.html", facts=facts)
+    return render_template("upload.html")
 
 
 # image upload
@@ -88,7 +88,7 @@ def upload_image():
         # print('upload_image filename: ' + filename)
 
         # flash('Image successfully uploaded and displayed')
-        return render_template('upload.html', filename=filename, facts=facts)
+        return render_template('upload.html', filename=filename)
     else:
         flash('Allowed image types are -> png, jpg, jpeg, gif')
         return redirect(request.url)
@@ -174,7 +174,7 @@ def img_recognition(filename):
     # pprint.pprint(gc.garbage)
 
     # Redirect back to home page
-    return render_template("upload.html", predictions=g.predictions, facts=facts, filename=filename, artists=artists)
+    return render_template("upload.html", predictions=g.predictions, filename=filename, artists=artists)
 
 
 if __name__ == '__main__':
