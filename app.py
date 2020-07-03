@@ -1,26 +1,27 @@
-from flask import g
+from flask import Flask
+from pympler.tracker import SummaryTracker
+import pprint
+import gc
+import operator
+import FirstCustomImageRecognition
+from imageai.Prediction.Custom import CustomImagePrediction
+import csv
+import requests
+from bson import json_util, ObjectId
+import json
+import urllib.parse
+from pymongo import MongoClient
+from werkzeug.utils import secure_filename
+from flask import Flask, flash, request, redirect, url_for, render_template, jsonify, make_response, template_rendered, session
+import urllib.request
 import os
+from flask import g
+
+
 # from flask_cacheify import init_cacheify
 
 # from app import app
-import urllib.request
-from flask import Flask, flash, request, redirect, url_for, render_template, jsonify, make_response, template_rendered, session
-from werkzeug.utils import secure_filename
-from pymongo import MongoClient
-import urllib.parse
-import json
-from bson import json_util, ObjectId
-import requests
-import csv
-from imageai.Prediction.Custom import CustomImagePrediction
-import FirstCustomImageRecognition
-import operator
-import gc
-import pprint
-from pympler.tracker import SummaryTracker
 # from flask_cache import Cache
-
-from flask import Flask
 
 
 tracker = SummaryTracker()
@@ -80,6 +81,7 @@ def upload_form():
 # image upload
 @app.route('/', methods=['POST'])
 def upload_image():
+    g.predictions = None
     if 'file' not in request.files:
         # flash('No file part')
         return redirect(request.url)
@@ -207,11 +209,16 @@ def img_recognition(filename):
 
     # print('Remaining Garbage:')
     # pprint.pprint(gc.garbage)
-
+    # Print all variables and their values
+    print(list(globals().items()))
     # Redirect back to home page
     return render_template("upload.html", predictions=g.predictions, facts=facts, filename=filename, artists=artists)
 
 
 if __name__ == '__main__':
+
+    # Print all variables and their values
+    print(list(globals().items()))
+
     # Threaded option to enable multiple instances for multiple user access support
     app.run(threaded=True, port=5000)
