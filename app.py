@@ -1,5 +1,7 @@
 from flask import g
 import os
+from flask_cacheify import init_cacheify
+
 # from app import app
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify, make_response, template_rendered, session
@@ -16,7 +18,7 @@ import operator
 import gc
 import pprint
 from pympler.tracker import SummaryTracker
-
+# from flask_cache import Cache
 
 from flask import Flask
 
@@ -40,6 +42,7 @@ UPLOAD_FOLDER = 'static/uploads/'
 
 # # Create an instance of Flask
 app = Flask(__name__)
+# cache = init_cacheify(app)
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
