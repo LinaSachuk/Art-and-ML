@@ -161,7 +161,7 @@ def img_recognition(filename):
     # print(best_prediction)
     # print(best_prediction[0])
 
-    with open('Top10Artists.csv') as csv_file:
+    with open('Top10Artists.csv', 'r') as csv_file:
         data = csv.reader(csv_file, delimiter=',')
         first_line = True
         artists = []
@@ -177,6 +177,7 @@ def img_recognition(filename):
 
             else:
                 first_line = False
+
         # print(artists)
         # return render_template("index.html", places=places)
 
