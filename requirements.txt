@@ -30,7 +30,7 @@ MarkupSafe==1.1.1
 matplotlib==3.2.2
 numpy==1.19.0
 opt-einsum==3.2.1
-Pillow==7.1.2
+Pillow==9.3.0
 protobuf==3.12.2
 pycodestyle==2.6.0
 pylibmc==1.6.1
